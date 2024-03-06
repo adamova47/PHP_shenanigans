@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="sk">
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<!-- Bootstrap Core CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<title>Fundamentals of Programming 2-IKV-105</title>
+
+</head>
+
+<body>
+
+!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Fundamentals of Programming 2-IKV-105</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+                    <li><a href="https://dai.fmph.uniba.sk/w/Course:Fundamentals_of_programming/en">Course webpage</a></li>
+                    <li><a href="?#project">Project</a></li>
+<!--
+					<li><a class="meicogsci" href="http://cogsci.fmph.uniba.sk/"><img src="./images/meicogsciba_transparent.png" height="36"/></a></li>
+-->
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+	<div class="container">
+
+        <div class="row margtop">
+            <div class="col-lg-12">
+                
+<h1 id="project">Fundamentals of Programming Project</h1>
+
+<h2>Basic Assignment</h2>
+
+<p>The two main project options are:</p>
+<ol>
+	<li>A small program of your own idea</li>
+	<li>Code for the ICI Neural Network Assignment</li>
+</ol>
+
+<h3>General requirements</h3>
+
+<ul>
+	<li>The code needs to be <strong>functional</strong>, should not give errors when executed properly according the the instructions.</li>
+	<li>Make a short <strong>ReadMe</strong> file where you put instructions on how to run your code and what it does.</li>
+	<li>For most point the code should also <i>work with files</i>: save and load text or csv files or save plots as images.</li>
+	<li>You should demostrate using <strong>lists</strong> and <strong>loops</strong> in your project. Optionally, feel free to use anything else.</li>
+</ul>
+
+<h3>Your own small program</h3>
+
+<p>Think of anything that can be useful, yet do not overcomplicate. The code can have about 100-200 lines of code.
+Check out last year's project of a <a href="rohil-quiz-project.zip">yoga quiz</a>.</p>
+
+<p>Important note: you need to consult the idea prior to submission. Give a short written specification about what the program should do.
+Consult your idea in order to make sure the complexity is on the right level.</p>
+
+<h3>ICI Project</h3>
+
+<p>Work with the existing code. The task is classification and there are some ready to use examples of the multilayer perceptron (MLP).
+Write code to make experiments with hyperparameters, the two most common are the size of the hidden layer and the learning rate.</p>
+
+<p>Make several runs of the network with the particular hyperparameter values and note the average performance. 
+The output should be a table or a plot showing the difference between the tested hyperparameters in terms of accuracy and error measures.
+For plotting you can use matplotlib, an example is shown in the sample code.</p>
+
+<p>Something more: use a dataset of your own choosing. There are usually helper classes you can download for free that will help you to work with the dataset.
+The task should remain the same, i.e. the classification.</p>
+
+<p>For more specifics follow the text further in this page.</p>
+
+<p><strong>Note for ICI:</strong> for ICI project I will only evaluate the experimental protocol (written output) and for programming only the code that you used for making it.</p>
+
+
+<h3>Details on the ICI Neural Net Assignment</h3>
+
+<p>The <a href="code">code here</a> is the latest version of the simple multilayer perceptron which I tailored so the whole training of a single net is implemented as a method of the perceptron class.</p>
+<p>You will need to install couple of modules such as matplotlib or numpy, you can do it manually via pip, but also via pycharm which will install all that is needed in the project locally and effordlessly.</p>
+
+<h4>The perceptron</h4>
+
+<p>The file <code>perceptron_numpy.py</code> contains the class Perceptron - that is one single net. It is initialized using these attributes:</p>
+<ul>
+	<li><code>layers</code>: a list with sizes of the network layers in the order: input (x), hidden (h), output (y), </li>
+	<li><code>activation_funcions</code>: can be different for each layer of neurons,</li>
+	<li><code>learning_rate</code>: is the pace at which the network learns in terms of the magnitude of the weight change computed from the error gradient,</li>
+	<li><code>init_weight_mean</code> and <code>init_weight_variance</code> of the initial weights random distribtuion (normal), by default set to mean 0.0 and variance 0.02</li>
+</ul>
+<p>And generates the weights as these attributes:</p>
+<ul>
+	<li><code>weights_input_hidden</code> connecting the input and the hidden layer, the shape of the weights is hidden_size x input_size so the matrix operations will fit (batch of inputs multiplied by weights)</li>
+	<li><code>weights_hidden_output</code> connecting hidden and output layer output_size x hidden_size</li>
+</ul>
+<p>
+	<img src="images/perceptron-xor.png" width="200"/><br/>
+	In the image the input layer x is drawn on the bottom and output y on the top. It is a minimal case of MLP for the XOR task.
+	Blue nodes represent biases (contribute as threshold to the perceptron activation propagation) and how they are properly connected to the network layers.
+</p>             
+<p>When each data sample is processed by the network the input is first introduced to the input layer, 
+then the activation function is applied on the next layer to the product of the previous activation value(s) and the respective weight matrix. 
+In the 3 layer MLP this process is repeated with the hidden activation and the next set of weights to produce the output. 
+Usually a sigmoid activation function is sufficient, yet for better performance in a task with multiple classes (such as digits) the SoftMax is used.</p>
+
+<h4>The experiment runner</h4>
+
+<p>There is <code>mnist_perceptron_experiment.py</code> and <code>iris_perceptron_experiment.py</code> which contain data loading and a loop over 10 networks (mnist experiment). 
+The processing of results is not finished, so you should work with this code to make your experiments and store the results properly and compute average performance. 
+There is also an example plot in matplotlib.</p>
+
+<p>The MNIST dataset is provided via <code>mnist.py</code> module which is taken from <a href="https://github.com/hsjeong5/MNIST-for-Numpy">MNIST-for-Numpy</a> project at GitHub. 
+There are many similar modules that can help you load other datasets. Please keep in mind that the task should be classificiation as indicated in the ICI project assignment.</p>
+
+<p>In the <code>mnist_perceptron_experiment.py</code> you need to call the mnist.init() method on line 17 so it will download the data, 
+once the data are downloaded you can comment it out so it won't download it every time you run the code.
+Note also that we divide the values by 255 which squashes the values of image pixels to interval between 0 and 1 which facilitates training.</p>
+
+<p>For displaying images you can use the Pillow module as we had in the lectures. It is included on the top of the file, but not used yet. 
+You can either comment it out or install the right dependency, which actually is not PIL (because PIL is just a shortcut name for Pillow).
+If you press install PIL in pycharm it will give an error (ERROR: Could not find a version that satisfies the requirement PIL (from versions: none)).
+If you open the context menu with more options it will also offer you to install Pillow.
+</p>
+
+<p>For the IRIS dataset I used the great <a href="https://scikit-learn.org/stable/">scikit-learn</a> library. 
+Have a look at it when searching for ready-to-use machine learning methods such as regression, PCA, or many others we tackled in the ICI classes.
+Note that the IRIS data are not normalized nor squashed, you can explore this in search for better performance, yet given the 4 attributes with more or less balanced values it is not neccessary.
+From this I also used the method to split the dataset to training and testing samples as you may see in the code. 
+This can be used with any dataset, but you have to make sure the dimensions of the data matrices fit the method as well as then make them fit the classifier using the transpose method.</p>
+
+<h4>What's more there to do?</h4>
+
+<p>Make sure you gather experimental results for several hidden layer sizes and learning rate values. There are many other things you can do in addition, for example:</p>
+<ul>
+	<li>Computing, logging and displaying extra information such as the mean squared error (MSE).</li>
+	<li>Saving and loading the network weights</li>
+	<li>With the best hyperparameters found you can illustrate the training process in terms of success and error over time (in epochs). You can also show the difference with a worse setup in the same graph.</li>
+	<li>Experimenting with other hyperparameters</li>
+	<li>For handwritten digits you can use <a href="">this code</a> and adapt it to load your network weights 
+	and make the estimate about some randomly selected samples, project them in a figure and indicate whether they were properly classified or misclassified by your network</li>
+	<li>Implement one of the additional techniques that will make your network perform better such as the momentum or weight decay.</li> 
+</ul>
+
+<p>The momentum is basically about taking into consideration gradients from the previous steps with some decaying factor, 
+so the past gradients will be less important than the current one. Watch this <a href="https://www.youtube.com/watch?v=qhWperPtnas">short illustration video of the momentum</a>.
+The weight decay method introduces a new coefficient apart from learning rate that will basically
+lower the contribution of the computed gradient to the weight change, but unlike learning rate it will proportionally diminish bigger changes compared to smaller ones.</p>  
+
+            </div>
+        </div>
+
+    </div><!--end container-->
+
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <p>Last update by K.M. on Jan 23 2022</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

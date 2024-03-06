@@ -1,0 +1,23 @@
+h1 {
+font-size: 28px;
+padding: 40px 0 0 0;
+font-weight: bold;
+}
+
+ul.large {
+font-size: 1.1em;
+}
+
+.large li {
+margin-top: 1em;
+}
+
+#navi li a, #navi li a:active, #navi li a:visited {
+width: 145px;
+text-align: center;
+}
+
+#content {
+padding-top: 0; 
+}
+

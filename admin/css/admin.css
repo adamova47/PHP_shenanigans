@@ -1,0 +1,450 @@
+body {
+background: #acfcff;
+color: #000;	
+font-family: Verdana, 'Geneva CE', lucida, sans-serif;
+text-align: left;
+font-size: 76%;
+padding:0;
+margin:0;
+}
+
+#wrap {
+background-color: #fff;
+border-left: 2px solid #000;
+border-right: 2px solid #000;
+border-bottom: 1px solid #000;
+width: 1100px;
+min-height:70em;
+margin-left: auto;
+margin-right: auto;
+margin-top:0;
+padding: 0 0 4em 0;
+}
+
+#header {
+border: 2px solid #222;
+height: 115px;
+background: #fff url("../images/cncdeco2.png") top left no-repeat;
+}
+
+h2 {
+font-size: 2em;
+margin: 3em 0 0 0.5em;
+}
+
+h1 {
+margin: 1.8em 0 0 0.5em;
+font-size: 3em;
+}
+
+hr {
+color:#eee;
+}
+
+ul {
+margin: 0;
+padding: 0;
+}
+
+li {
+list-style-type: none;
+padding: 1em;
+}
+
+li:hover {
+background: cornsilk;
+}
+
+ul a, ul a:active, ul a:visited {
+text-decoration:none;
+font-weight:bold;
+padding: 5px;
+color:darkblue;
+}
+
+ul a:hover {
+text-decoration: underline;
+}
+
+ul.navi_hori {
+border: 1px solid #222;
+}
+
+ul.navi_hori li {
+display: block;
+float:left;
+text-align: center;
+}
+
+ul.navi_hori li+li {
+border-left: 1px solid #999;
+}
+
+ul.navi_verti {
+border: 1px solid #222;
+}
+
+ul.navi_verti li {
+}
+
+ul.navi_verti li+li {
+border-top: 1px solid #999;
+}
+
+#panel_left {
+width: 12.4%;
+float: left;
+}
+
+#panel_right {
+width: 80%;
+float: left;
+padding: 0 2em 0 2em;
+}
+
+
+#panel_center {
+width: 90%;
+padding: 0 2em 0 2em;
+}
+
+.newswrap {
+margin-left: auto;
+margin-right: auto;
+width:950px;
+}
+
+table {
+border-right:  1px solid #000;
+border-top:  1px solid #000;
+background: #fff;
+margin: 2em 0 2em 0;
+margin-left:auto;
+margin-right:auto;
+width: 96%;
+}
+
+th {
+color: #000;
+background: #fff;
+padding: 0.8em;
+border-left: 1px solid #000;
+border-bottom: 1px solid #000;
+}
+
+td {
+border-left: 1px solid #000;
+border-bottom: 1px solid #000;
+padding: 5px;
+text-align: left;
+line-height:2ex;
+}
+
+td.gray {
+background: #eee;
+}
+
+td textarea {
+border: none;
+}
+
+.pbox {
+width: 31%;
+float: left;
+border: 1px solid #666;
+background: #fff;
+margin: 5px;
+padding: 2px;
+}
+
+.navi {
+font-size:1.1em;
+word-spacing: 0.7ex;
+width: 80%;
+margin-left: auto;
+margin-right: auto;
+}
+
+.notvisible {
+background: #eee;
+}
+
+fieldset {
+margin: 1em 0 1em 0;
+border: 1px inset #eee;
+border:none;
+width: 100%;
+padding: 20px 0 0 20px;
+}
+
+fieldset input {
+width: 80%;
+}
+
+fieldset label {
+width: 15%;	
+}
+
+label {
+padding: 5px;
+display:block;
+float:left;
+text-align:right;
+}
+
+label.gray {
+color: #444;
+}
+
+input.inpsmall {
+width: 2em;
+}
+
+br {
+clear:both;
+}
+
+input {
+margin: 3px 0 0 0;
+background: #fff;
+color:#000;
+font-size: 1em;
+}
+
+select {
+font-size: 1em;
+}
+
+.box {
+width: 48%;
+float: left;
+margin: 5px 0 0 10px;
+}
+
+.box2 {
+width: 23%;
+float: left;
+margin: 0 0 15px 0;
+}
+
+.box2 label {
+width:53px;
+}
+
+p.hr {
+color: #666;
+border-top:1px solid #ccc;
+text-align: right;
+margin: 0.3em 0 0.3em 0;
+}
+
+textarea {
+border: 1px solid #000;
+margin: 2em 0 0 0.5em;
+font-family: Verdana, 'Geneva CE', lucida, sans-serif;
+font-size: 1em;
+color:#000;
+width: 100%;
+}
+
+textarea.smallarea {
+border: 1px inset #666;
+margin: 0;
+width: 80%;
+}
+
+input.long {
+width: 606px;
+}
+
+input.addHTML {
+border: 1px solid #000;
+background-color: #fff;
+color: #444;
+font-weight: bold;
+font-size: 1em;
+margin: 0.5em 0 0.3em 0.5em;
+width: 10em;
+}
+
+.link {
+width: 16em;
+border: 1px solid #000;
+background-color: #fff;
+color: #000;
+font-size: 1em;
+margin: 0.5em 0 1em 0.5em;
+}
+
+#bibchars fieldset {
+border: none;
+width: 60em;
+padding: 0;
+}
+
+#bibchars table {
+float: left;
+width: 20em;
+margin: 1em 1em 0 0;
+}
+
+#bibchars input {
+width: 4em;
+height: 2em;
+border: 1px solid #444;
+}
+
+#bibchars img {
+margin: 0;
+}
+
+#bitchars td {
+font-weight: normal;	
+}
+
+#bibchars .sbutton {
+width: 6em;
+height: 2.4em;
+border: 1px solid #444;
+font-weight: bold;
+}
+
+#publinavi {
+margin: 0 0 0 1em;
+width: 50%;
+float:left;
+}
+
+#publinavi p {
+display:block;
+float:left;
+margin: 1em 0 0 1em;	
+}
+
+#publinavi a {
+display:block;
+float:left;
+margin: 1em 0 0 1em;
+}
+
+#exportbib {
+margin: 0 0 0 1em;
+width: 45%;
+float:left;
+}
+
+#exportbib input {
+width: 10em;
+}
+
+#exportbib select {
+width: 13.5em;
+}
+
+#publist {
+padding: 1em;
+}
+
+input.button {
+display: block;
+font-weight: bold;
+width:120px;
+margin: 1em;
+padding: 0.3em 0.5em 0.3em 0.5em;
+color: #000;
+font-family: Verdana, 'Geneva CE', lucida, sans-serif;
+border: 2px outset #aaa;
+background: #fff;
+font-size: 1em;
+float: left;
+}
+
+input.buttonnarrow {
+display: block;
+font-weight: bold;
+width:50px;
+padding: 0.3em 0.5em 0.3em 0.5em;
+color: #000;
+font-family: Verdana, 'Geneva CE', lucida, sans-serif;
+border: 2px outset #aaa;
+background: #fff;
+font-size: 1em;
+float: left;
+}
+
+a.button {
+display: block;
+font-weight: bold;
+width:120px;
+margin: 1em;
+padding: 0.3em 0.5em 0.3em 0.5em;
+color: #000;
+font-family: Verdana, 'Geneva CE', lucida, sans-serif;
+border: 2px outset #aaa;
+background: #fff;
+font-size: 1em;
+text-decoration: none;
+float: left;
+text-align: center;
+}
+
+.green {
+color:#007700;
+}
+
+.red {
+color:#8e2f1e;
+}
+
+.clear {
+clear:both;
+}
+
+.right {
+float: right;
+}
+
+.left {
+float: left;
+}
+
+/*border: 1px solid red;*/
+
+#login_wrap {
+width: 30em;
+margin-left: 10em;
+margin-right: auto;
+margin-top: 5em;
+padding: 2em;
+}
+
+#login_wrap label {
+border: none;
+padding: 0;
+background-color: #fff;
+}
+
+#login_wrap fieldset {
+border: none;
+margin: 1em 0 1em 0;
+}
+
+#login_wrap input {
+margin: 0.5em;
+}
+
+#login_wrap .message {
+border: 1px solid orange;
+color: orange;
+padding: 1em;
+}
+
+.message {
+border: 1px solid #ff7e00;
+color: #ff7e00;
+padding: 1em;
+}
+
+.w30 {
+width: 30%;	
+}

@@ -1,0 +1,251 @@
+body {
+  padding-top: 15px;
+  /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+  background-color: #ffffff;
+  color: #000000;
+}
+h1 {
+  font-size: 1.5em;
+}
+h2 {
+  font-size: 1.4em;
+}
+h3 {
+  font-size: 1.3em;
+}
+a,
+a:active {
+  color: #0059b3;
+}
+a:hover {
+  color: #004080;
+}
+.navbar {
+  background-color: #c9e6f5;
+  border-color: #c9e6f5;
+  margin-top: 60px;
+  margin-bottom: 52.5px;
+  font-family: 'Oxygen', sans-serif;
+}
+.navbar-default .navbar-brand {
+  position: absolute;
+  top: -55px;
+  left: 0;
+  right: 0;
+  width: 155px;
+  height: 155px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  color: #004080;
+  text-align: center;
+}
+.navbar-default .navbar-brand {
+  text-align: center;
+}
+.navbar-default .navbar-brand:hover {
+  color: #004080;
+  text-decoration: underline;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #004080;
+}
+.navbar-default .navbar-nav > li > a:hover {
+  text-decoration: underline;
+  color: #004080;
+}
+.navbar-default .navbar-toggle {
+  border-color: #004080;
+  background-color: #c9e6f5;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #004080;
+}
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+  background-color: #c9e6f5;
+}
+.navbar-default .navbar-collapse {
+  border-color: transparent;
+}
+.dropdown-menu {
+  color: #004080;
+  background-color: #c9e6f5;
+  border-top: none;
+}
+.dropdown-menu > li a {
+  color: #004080;
+  background: #c9e6f5;
+}
+.dropdown-menu > li > a:hover {
+  color: #004080;
+  background: #c9e6f5;
+  text-decoration: underline;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav > .open > a:hover {
+  color: #004080;
+  background: #c9e6f5;
+}
+.longtextwithnavi {
+  text-align: justify;
+  padding-bottom: 2em;
+}
+.longtextwithoutnavi {
+  text-align: justify;
+  padding-bottom: 2em;
+}
+@media (min-width: 767px) {
+  h1 {
+    font-size: 2.2em;
+  }
+  h2 {
+    font-size: 1.8em;
+  }
+  h3 {
+    font-size: 1.4em;
+  }
+  .navbar {
+    height: 30px;
+    margin-top: 60px;
+    margin-bottom: 70px;
+    -webkit-transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
+    -moz-transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
+    transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
+  }
+  .navbar-default .navbar-nav > li > a {
+    font-weight: 900;
+    font-size: 1.15em;
+  }
+  .logospanning {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    right: 0;
+    top: -22px;
+    text-align: center;
+    width: 50%;
+    height: 90px;
+    padding-right: 10px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-right-text {
+    padding-top: 37px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-logo-round {
+    margin-right: 10px;
+    margin-top: 0;
+  }
+  .navbar-default .navbar-nav > li > a.nav-logo-meicogsciba {
+    background: url("../images/meicogsciba_transparent_blue.png") top left no-repeat;
+    background-size: 70px;
+    width: 80px;
+    height: 90px;
+    margin-top: 10px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-logo-meicogscieu {
+    background: url("../images/meicogscieu.png") top left no-repeat;
+    background-size: 75px;
+    width: 75px;
+    margin-top: 35px;
+    margin-right: 15px;
+  }
+  .navbar-default .navbar-nav > li > a.logo-fmfi {
+    background: url("../images/fmfi.png") top left no-repeat;
+    background-size: 90px;
+    width: 90px;
+    height: 90px;
+  }
+  .navbar-default .navbar-nav > li > a.logo-uniba {
+    background: url("../images/comenius.png") top left no-repeat;
+    background-size: 90px;
+    width: 90px;
+    height: 90px;
+  }
+  .navbar-default .navbar-nav > li > a > .hide-link-lg {
+    display: none;
+  }
+}
+@media (min-width: 878px) and (max-width: 1180px) {
+  .logospanning {
+    top: -12px;
+  }
+  .navbar-default .navbar-nav > li {
+    max-width: 120px;
+  }
+  .navbar-default .navbar-nav > li > a {
+    font-size: 1em;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-right-text {
+    padding-top: 27px;
+    margin-right: 5px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-logo-round {
+    background-size: 70px;
+    width: 70px;
+    height: 70px;
+    margin-right: 5px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-logo-meicogsciba {
+    margin-top: 12px;
+    margin-right: 5px;
+  }
+  .navbar-default .navbar-nav > li > a.nav-logo-meicogscieu {
+    margin-top: 25px;
+    margin-right: 5px;
+  }
+}
+@media (min-width: 980px) and (max-width: 1180px) {
+  .navbar-default .navbar-left > li > a {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+/*bootstrap fix collaps early*/
+@media (min-width: 768px) and (max-width: 878px) {
+  .navbar-collapse.collapse {
+    display: none !important;
+  }
+  .navbar-collapse.collapse.in {
+    display: block !important;
+  }
+  .navbar-header .collapse,
+  .navbar-toggle {
+    display: block !important;
+  }
+  .navbar-header {
+    float: none;
+  }
+}
+/* content box fixes */
+@media (min-width: 1300px) {
+  .navbar-lg-container {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1300px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 840px;
+  }
+  .longtextwithnavi {
+    width: 1100px;
+  }
+  .longtextwithnavi h2 {
+    margin-top: 1.2em;
+  }
+  .longtextwithoutnavi {
+    width: 900px;
+  }
+}
+.affix {
+  position: fixed;
+  top: 200px;
+  background-color: #fcf8ff;
+}
+/****** Color candidates ******/
+/****** Params ******/
