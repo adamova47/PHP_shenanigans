@@ -3,15 +3,19 @@
     include "../common/db_func.php";
     include "../common/func.php";
 
-	if (db_connect()) {
+	$mysqli = db_connect();
+
+	if ($mysqli instanceof mysqli) {
 		$data = array();
+		
 		$pubId = (isset($_GET['id'])) ? $_GET['id'] : -1;
 
 		$query = "SELECT * FROM publications WHERE id = ".$pubId;
-		$res = mysql_query($query);
+		$res = mysqli_query($mysqli, $query);
+
 		if ($res) {
-			$data = mysql_fetch_array($res);
-			mysql_free_result($res);
+			$data = mysqli_fetch_array($res, MYSQLI_ASSOC);
+			mysqli_free_result($res);
 		}
 
 		$attributes = $bibTypesArr[$data['ptype']];
@@ -27,5 +31,6 @@
 			}
 		}
 		echo "}";
+
+		mysqli_close($mysqli);
 	}
-?>

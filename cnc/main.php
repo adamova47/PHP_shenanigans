@@ -41,24 +41,33 @@
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-collapse-1">
+
 		<?php
-			 $r_navidata = mysql_query("SELECT name,getname FROM ".$mainTable." WHERE primarytext = '1' ORDER BY id ASC");
-			 if ($r_navidata) {
+			/** @var mysqli|bool $mysqli */
+			$mysqli = db_connect();
+
+			$r_navidata = mysqli_query($mysqli, "SELECT name,getname FROM ".$mainTable." WHERE primarytext = '1' ORDER BY id ASC");
+			if ($r_navidata) {
 		?>
+
 		<ul class="nav navbar-nav navbar-left">
+
 		<?php
-				  while ($row = mysql_fetch_assoc($r_navidata)) {
-					   if ($row['getname'] == "home") 
+				while ($row = mysqli_fetch_assoc($r_navidata)) {
+					if ($row['getname'] == "home") 
 							echo '<li><a href="?">'.$row['name'].'</a></li>'."\n";
 						else 
-							 echo '<li><a href="?action='.$row['getname'].'">'.$row['name'].'</a></li>'."\n"; 
-				  }
+							echo '<li><a href="?action='.$row['getname'].'">'.$row['name'].'</a></li>'."\n"; 
+				}
 	   ?>
+
 			</ul>
+
 		<?php 
-				  mysql_free_result($r_navidata);
-			 }
-		   ?>
+				mysqli_free_result($r_navidata);
+			}
+		?>
+
 				<div class="logospanning">
 					<ul class="nav navbar-nav navbar-right">
 						<li><a class="nav-right-text" href="http://cogsci.fmph.uniba.sk">Centre for Cognitive Science</a></li>
@@ -76,27 +85,29 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-			<?php
-                    $q = "";
-                    $a = "";
-                    if (isset($_GET['action'])) {
-                         $q = "SELECT * FROM ".$mainTable." WHERE getname = '".mysql_escape_string($_GET['action'])."'";
-                         $a = $_GET['action'];
-                    } else {
-                         $q = "SELECT * FROM ".$mainTable." WHERE id = 1";
-                    }
-                    if ($a == "publications")
-                        include "publications.php";
-                    if ($a == "research")
-                        include "projects.php";
-					else {
-						$r_mainbody = mysql_query($q);
-						if ($r_mainbody) {
-							echo mysql_result($r_mainbody,0,"text")."\n"; 
-							mysql_free_result($r_mainbody);
-						}
-					}
-			?>
+
+		<?php
+			$q = "";
+			$a = "";
+			if (isset($_GET['action'])) {
+					$q = "SELECT * FROM ".$mainTable." WHERE getname = '".mysqli_escape_string($mysqli, $_GET['action'])."'";
+					$a = $_GET['action'];
+			} else {
+					$q = "SELECT * FROM ".$mainTable." WHERE id = 1";
+			}
+			if ($a == "publications")
+				include "publications.php";
+			if ($a == "research")
+				include "projects.php";
+			else {
+				$r_mainbody = mysqli_query($mysqli, $q);
+				if ($r_mainbody && mysqli_num_rows($r_mainbody) > 0) {
+					echo mysqli_fetch_assoc($r_mainbody)['text']."\n";
+					mysqli_free_result($r_mainbody);
+				}
+			}
+		?>
+
 			   </div>
 			</div>
 		</div>
@@ -105,11 +116,13 @@
    <div id="footer">
 	   <?php
 			$q = "SELECT * FROM ".$mainTable." WHERE name = 'footer'";
-			$r_footer = mysql_query($q);
-			if ($r_footer && mysql_num_rows($r_footer) != 0) {
-				echo mysql_result($r_footer,0,"text")."\n";
-				mysql_free_result($r_footer);
+			$r_footer = mysqli_query($mysqli, $q);
+			if ($r_footer && mysqli_num_rows($r_footer) != 0) {
+				echo mysqli_fetch_assoc($r_footer)["text"]."\n";
+				mysqli_free_result($r_footer);
 			}
+
+			mysqli_close($mysqli);
 	   ?>
    </div>
 

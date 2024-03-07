@@ -1,14 +1,13 @@
 <?php
-
 include "conf.php";
 include "../common/conf.php";
 include "../common/db_func.php";
 include "../common/func.php";
 
 $message = "";
+$mysqli = db_connect();
 
-if (db_connect()) {
+if ($mysqli instanceof mysqli) {
     include "main.php";
-    mysql_close();
+    mysqli_close($mysqli);
 }
-?>
