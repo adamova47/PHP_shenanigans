@@ -67,7 +67,7 @@ include "header.php";
 		</ul>		
 		<?php
 			if (($action != "projects" && $action != "publications" && $action != "bibchars" && $action != "aiseminar") || 
-			($action == "publications" && $user['externalPubli_ations'] === "1"))
+			($action == "publications" && $user['externalPublications'] === "1"))
 		{
 		?>
 		<div id="panel_left">

@@ -18,4 +18,6 @@ $publiNaviNames = array(
 	'author' => 'author name',
 	'year' => 'year',	
 );
+
+$id = -1;
 ?>
