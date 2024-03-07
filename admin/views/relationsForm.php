@@ -3,20 +3,20 @@
  * @inherited params: $id,
  */
 $relatedusers = array();
-$r_relusers = mysql_query("SELECT * FROM " . $userTable . " AS u," . $userxpub . " AS rel WHERE u.id = rel.user AND rel.publication = " . $id);
+$r_relusers = mysqli_query($mysqli, "SELECT * FROM " . $userTable . " AS u," . $userxpub . " AS rel WHERE u.id = rel.user AND rel.publication = " . $id);
 if ($r_relusers) {
-	while ($row2 = mysql_fetch_assoc($r_relusers)) {
+	while ($row2 = mysqli_fetch_assoc($r_relusers)) {
 		array_push($relatedusers, '<strong>' . $row2['username'] . '</strong>');
 	}
-	mysql_free_result($r_relusers);
+	mysqli_free_result($r_relusers);
 }
 $relatedprojects = array();
-$r_relprojects = mysql_query("SELECT * FROM " . $projTable . " AS p," . $projxpub . " AS rel WHERE p.id = rel.project AND rel.publication = " . $id);
+$r_relprojects = mysqli_query($mysqli, "SELECT * FROM " . $projTable . " AS p," . $projxpub . " AS rel WHERE p.id = rel.project AND rel.publication = " . $id);
 if ($r_relprojects) {
-	while ($row2 = mysql_fetch_assoc($r_relprojects)) {
+	while ($row2 = mysqli_fetch_assoc($r_relprojects)) {
 		array_push($relatedprojects, '<strong>' . $row2['tag'] . '</strong>');
 	}
-	mysql_free_result($r_relprojects);
+	mysqli_free_result($r_relprojects);
 }
 if ($id > -1) {
 	?>

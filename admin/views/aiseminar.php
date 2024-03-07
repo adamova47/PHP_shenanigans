@@ -11,10 +11,10 @@ if ($id > 0) {
 	?>
 	<h3>Edit event <?= $id ?></h3>
 	<?php
-	$result = mysql_query('SELECT * FROM aiseminar WHERE id = ' . $id);
+	$result = mysqli_query($mysqli, 'SELECT * FROM aiseminar WHERE id = ' . $id);
 	if ($result) {
-		$data = mysql_fetch_array($result);
-		mysql_free_result($result);
+		$data = mysqli_fetch_array($result);
+		mysqli_free_result($result);
 	}
 } else {
 	?>
@@ -76,14 +76,14 @@ $limit = 20;
 	<?php
 	$orderby = 'id';
 	if (isset($_GET['orderby']))
-		$orderby = mysql_escape_string($_GET['orderby']);
+		$orderby = mysqli_escape_string($mysqli, $_GET['orderby']);
 
 	$query = 'SELECT * FROM aiseminar ORDER BY ' . $orderby;
 	$query = ($orderby == 'id' || $orderby == 'vis') ? $query . ' DESC ' : $query . ' ASC ';
 	//if (isset($limit)) $query = 'LIMIT '.$limit;
-	$res = mysql_query($query);
+	$res = mysqli_query($mysqli, $query);
 	if ($res) {
-		while ($row = mysql_fetch_assoc($res)) {
+		while ($row = mysqli_fetch_assoc($res)) {
 			?>
 			<tr>
 				<?php

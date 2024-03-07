@@ -27,17 +27,17 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 
 				$textfield = 'novytext';
 				$hasLeft = (isset($_POST['hasleft'])) ? 1 : 0;
-				$query = "UPDATE " . $mainTable . " SET text = '" . mysql_escape_string($_POST[$textfield]) . "'";
+				$query = "UPDATE " . $mainTable . " SET text = '" . mysqli_escape_string($mysqli, $_POST[$textfield]) . "'";
 				if ($mainTable == $user['tablename']) {
 					$query = $query . ", `has-left` = " . $hasLeft;
 				}
-				$query = $query . " WHERE getname = '" . mysql_escape_string($_POST['pagepart']) . "'";;
-				$result = mysql_query($query);
+				$query = $query . " WHERE getname = '" . mysqli_escape_string($mysqli, $_POST['pagepart']) . "'";;
+				$result = mysqli_query($mysqli, $query);
 
 				if ($result)
 					$message = "Text of part <q>" . $_POST['pagepart'] . "</q> has been changed successfully.";
 				else
-					$message = $errordbupload.mysql_error();
+					$message = $errordbupload.mysqli_error($mysqli);
 			} else
 				$message = "Page part to change not set.";
 		}
@@ -47,10 +47,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 		elseif ($task == "newEntry") {
 			//if there are no same
 			$same = false;
-			$qd = "SELECT * FROM " . $publiTable . " WHERE title = '" . mysql_real_escape_string(trim($_POST['title'])) . "' AND year = '" . mysql_real_escape_string(trim($_POST['year'])) . "'";
-			$r_dupl = mysql_query($qd);
+			$qd = "SELECT * FROM " . $publiTable . " WHERE title = '" . mysqli_real_escape_string($mysqli, trim($_POST['title'])) . "' AND year = '" . mysqli_real_escape_string($mysqli,trim($_POST['year'])) . "'";
+			$r_dupl = mysqli_query($mysqli, $qd);
 			if ($r_dupl) {
-				if (mysql_num_rows($r_dupl) != 0) {
+				if (mysqli_num_rows($r_dupl) != 0) {
 					$same = true;
 				}
 			}
@@ -64,22 +64,22 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 						if ($key == "id" || $key == "vis")
 							;
 						else
-							$query = $query . ", '" . mysql_real_escape_string(trim($_POST[$key])) . "'";
+							$query = $query . ", '" . mysqli_real_escape_string($mysqli, trim($_POST[$key])) . "'";
 					}
 				}
 				$query = $query . ")";
 
-				if (mysql_query($query)) {
-					$newid = mysql_insert_id();
+				if (mysqli_query($mysqli, $query)) {
+					$newid = mysqli_insert_id($mysqli);
 					$message = "New entry " . $newid . " has been added successfully.";
 
 					if (isset($_POST['addprojects']) && ($_POST['addprojects'][0] != 0)) {
 						$additems = array();
 						foreach ($_POST['addprojects'] as $p) {
-							array_push($additems, "(" . mysql_real_escape_string($p) . "," . $newid . ")");
+							array_push($additems, "(" . mysqli_real_escape_string($mysqli, $p) . "," . $newid . ")");
 						}
 						$addquery = "INSERT INTO " . $projxpub . " (project, publication) VALUES " . implode(",", $additems);
-						$addresult = mysql_query($addquery);
+						$addresult = mysqli_query($mysqli, $addquery);
 						if ($addresult) {
 							;
 						} else {
@@ -90,10 +90,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					if (isset($_POST['addusers'])) {
 						$additems = array();
 						foreach ($_POST['addusers'] as $u) {
-							array_push($additems, "(" . mysql_real_escape_string($u) . "," . $newid . ")");
+							array_push($additems, "(" . mysqli_real_escape_string($mysqli, $u) . "," . $newid . ")");
 						}
 						$addquery = "INSERT INTO " . $userxpub . " (user, publication) VALUES " . implode(",", $additems);
-						$addresult = mysql_query($addquery) or trigger_error(mysql_error());
+						$addresult = mysqli_query($mysqli, $addquery) or trigger_error(mysqli_error($mysqli));
 						if ($addresult) {
 							;
 						} else {
@@ -102,7 +102,7 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					}
 				}
 				else
-					$message = $errordbupload . mysql_error();
+					$message = $errordbupload . mysqli_error($mysqli);
 			}
 			else
 				$message = "Entry with title " . $_POST['title'] . " and " . $_POST['year'] . " already exists!  ";
@@ -121,21 +121,21 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					elseif ($key == "vis")
 						$query = $query . $key . " = '" . $vis . "', ";
 					else
-						$query = $query . $key . " = '" . mysql_real_escape_string($_POST[$key]) . "', ";
+						$query = $query . $key . " = '" . mysqli_real_escape_string($mysqli, $_POST[$key]) . "', ";
 				}
 				$query = substr($query, 0, strlen($query) - 2);
 				$query = $query . " WHERE id = " . $id;
 
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Entry " . $id . " has been changed successfully.";
 
 					if (isset($_POST['addprojects']) && ($_POST['addprojects'][0] != 0)) {
 						$additems = array();
 						foreach ($_POST['addprojects'] as $p) {
-							array_push($additems, "(" . mysql_real_escape_string($p) . "," . $id . ")");
+							array_push($additems, "(" . mysqli_real_escape_string($mysqli, $p) . "," . $id . ")");
 						}
 						$addquery = "INSERT INTO " . $projxpub . " (project, publication) VALUES " . implode(",", $additems);
-						$addresult = mysql_query($addquery) or trigger_error(mysql_error());
+						$addresult = mysqli_query($mysqli, $addquery) or trigger_error(mysqli_error($mysqli));
 						if ($addresult) {
 							;
 						} else {
@@ -146,10 +146,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					if (isset($_POST['deleteprojects'])) {
 						$delitems = array();
 						foreach ($_POST['deleteprojects'] as $p) {
-							array_push($delitems, mysql_real_escape_string($p));
+							array_push($delitems, mysqli_real_escape_string($mysqli, $p));
 						}
 						$delquery = "DELETE FROM " . $projxpub . " WHERE project IN (" . implode(",", $delitems) . ")";
-						$delresult = mysql_query($delquery) or trigger_error(mysql_error());
+						$delresult = mysqli_query($mysqli, $delquery) or trigger_error(mysqli_error($mysqli));
 						if ($delresult) {
 							;
 						} else {
@@ -160,10 +160,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					if (isset($_POST['addusers'])) {
 						$additems = array();
 						foreach ($_POST['addusers'] as $u) {
-							array_push($additems, "(" . mysql_real_escape_string($u) . "," . $id . ")");
+							array_push($additems, "(" . mysqli_real_escape_string($mysqli, $u) . "," . $id . ")");
 						}
 						$addquery = "INSERT INTO " . $userxpub . " (user, publication) VALUES " . implode(",", $additems);
-						$addresult = mysql_query($addquery) or trigger_error(mysql_error());
+						$addresult = mysqli_query($mysqli, $addquery) or trigger_error(mysqli_error($mysqli));
 						if ($addresult) {
 							;
 						} else {
@@ -174,10 +174,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					if (isset($_POST['deleteusers'])) {
 						$delitems = array();
 						foreach ($_POST['deleteusers'] as $u) {
-							array_push($delitems, mysql_real_escape_string($u));
+							array_push($delitems, mysqli_real_escape_string($mysqli, $u));
 						}
 						$delquery = "DELETE FROM " . $userxpub . " WHERE user IN (" . implode(",", $delitems) . ")";
-						$delresult = mysql_query($delquery) or trigger_error(mysql_error());
+						$delresult = mysqli_query($mysqli, $delquery) or trigger_error(mysqli_error($mysqli));
 						if ($delresult) {
 							;
 						} else {
@@ -194,18 +194,18 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 
 		elseif ($task == "deleteEntry") {
 			if (isset($_POST['id'])) {
-				$id = mysql_escape_string($_POST['id']);
+				$id = mysqli_escape_string($mysqli, $_POST['id']);
 				$query = "DELETE FROM " . $publiTable . " WHERE id = " . $id;
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Entry " . $id . " has been deleted successfully.";
 					//delete relations
 					$q_proj = "DELETE FROM " . $projxpub . " WHERE publication = " . $id;
-					if (mysql_query($q_proj))
+					if (mysqli_query($mysqli, $q_proj))
 						;
 					else
 						$message = $message . " Error deleting project - publication relations";
 					$q_users = "DELETE FROM " . $userxpub . " WHERE publication = " . $id;
-					if (mysql_query($q_proj))
+					if (mysqli_query($mysqli, $q_proj))
 						;
 					else
 						$message = $message . " Error deleting user - publication relations";
@@ -220,12 +220,12 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 		elseif ($task == "makePublic") {
 			if (isset($_POST['id']) && isset($_POST['tablename']) && isset($_POST['changeVis'])) {
 				$id = intval($_POST['id']);
-				$vis = mysql_escape_string($_POST['changeVis']);
-				$query = "UPDATE " . mysql_real_escape_string($_POST['tablename']) . " SET vis= '" . $vis . "' WHERE id = " . $id;
-				if (mysql_query($query)) {
+				$vis = mysqli_escape_string($mysqli, $_POST['changeVis']);
+				$query = "UPDATE " . mysqli_real_escape_string($mysqli, $_POST['tablename']) . " SET vis= '" . $vis . "' WHERE id = " . $id;
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Visibility of entry " . $id . " has been changed successfully.";
 				} else {
-					$message = $errordbupload . mysql_error();
+					$message = $errordbupload . mysqli_error($mysqli);
 				}
 			}
 		}
@@ -239,23 +239,23 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					if ($key == "id" || $key == "vis")
 						;
 					else
-						$query = $query . "'" . mysql_real_escape_string($_POST[$key]) . "', ";
+						$query = $query . "'" . mysqli_real_escape_string($mysqli, $_POST[$key]) . "', ";
 				}
 			}
 			$query = $query . " '" . $vis . "')";
 			//echo $query;
-			if (mysql_query($query)) {
-				$newid = mysql_insert_id();
+			if (mysqli_query($mysqli, $query)) {
+				$newid = mysqli_insert_id($mysqli);
 				$message = "New entry " . $newid . " has been added successfully.";
 				//add new project - user relation
 				if (isset($_POST['addusers'])) {
 
 					$additems = array();
 					foreach ($_POST['addusers'] as $u) {
-						array_push($additems, "(" . mysql_real_escape_string($u) . "," . $newid . ")");
+						array_push($additems, "(" . mysqli_real_escape_string($mysqli, $u) . "," . $newid . ")");
 					}
 					$addquery = "INSERT INTO " . $userxproj . " (user, project) VALUES " . implode(",", $additems);
-					$addresult = mysql_query($addquery) or trigger_error(mysql_error());
+					$addresult = mysqli_query($mysqli, $addquery) or trigger_error(mysqli_error($mysqli));
 					if ($addresult) {
 						;
 					} else {
@@ -278,12 +278,12 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					if ($key == "id" || $key == "vis")
 						;
 					else
-						$query = $query . $key . " = '" . mysql_real_escape_string($_POST[$key]) . "', ";
+						$query = $query . $key . " = '" . mysqli_real_escape_string($mysqli, $_POST[$key]) . "', ";
 				}
 				$query = $query . "vis = '" . $vis . "' WHERE id = " . $id;
 				//echo $query;
 
-				$result = mysql_query($query) or trigger_error(mysql_error());
+				$result = mysqli_query($mysqli, $query) or trigger_error(mysqli_error($mysqli));
 				if ($result) {
 					$message = "Entry " . $id . " has been changed successfully.";
 
@@ -291,10 +291,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 
 						$additems = array();
 						foreach ($_POST['addusers'] as $u) {
-							array_push($additems, "(" . mysql_real_escape_string($u) . "," . $id . ")");
+							array_push($additems, "(" . mysqli_real_escape_string($mysqli, $u) . "," . $id . ")");
 						}
 						$addquery = "INSERT INTO " . $userxproj . " (user, project) VALUES " . implode(",", $additems);
-						$addresult = mysql_query($addquery) or trigger_error(mysql_error());
+						$addresult = mysqli_query($mysqli, $addquery) or trigger_error(mysqli_error($mysqli));
 						if ($addresult) {
 							;
 						} else {
@@ -305,10 +305,10 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 
 						$delitems = array();
 						foreach ($_POST['deleteusers'] as $u) {
-							array_push($delitems, mysql_real_escape_string($u));
+							array_push($delitems, mysqli_real_escape_string($mysqli, $u));
 						}
 						$delquery = "DELETE FROM " . $userxproj . " WHERE user IN (" . implode(",", $delitems) . ")";
-						$delresult = mysql_query($delquery) or trigger_error(mysql_error());
+						$delresult = mysqli_query($mysqli, $delquery) or trigger_error(mysqli_error($mysqli));
 						if ($delresult) {
 							;
 						} else {
@@ -327,16 +327,16 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 			if (isset($_POST['id'])) {
 				$id = intval($_POST['id']);
 				$query = "DELETE FROM " . $projTable . " WHERE id = " . $id;
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Project " . $id . " has been deleted successfully.";
 					//delete relations
 					$q_publ = "DELETE FROM " . $projxpub . " WHERE project = " . $id;
-					if (mysql_query($q_publ))
+					if (mysqli_query($mysqli, $q_publ))
 						;
 					else
 						$message = $message . " Error deleting project - publications relations";
 					$q_users = "DELETE FROM " . $userxproj . " WHERE project = " . $id;
-					if (mysql_query($q_users))
+					if (mysqli_query($mysqli, $q_users))
 						;
 					else
 						$message = $message . " Error deleting project - users relations";
@@ -355,15 +355,15 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					elseif ($key == "datetime")
 							$query = $query.", '".date('Y-m-d H:i:s', strtotime($_POST[$key]))."'";
 					else
-							$query = $query.", '".mysql_real_escape_string(trim($_POST[$key]))."'";
+							$query = $query.", '".mysqli_real_escape_string($mysqli, trim($_POST[$key]))."'";
 				}
 			}
 			$query = $query . ")";
-			if (mysql_query($query)) {
-				$newid = mysql_insert_id();
+			if (mysqli_query($mysqli, $query)) {
+				$newid = mysqli_insert_id($mysqli);
 				$message = "New entry " . $newid . " has been added successfully.";
 			} else {
-				$message = $errordbupload . '<br/>' . mysql_error();
+				$message = $errordbupload . '<br/>' . mysqli_error($mysqli);
 			}
 		}
 //////////////////////////// EDIT Seminar ////////////////////////////////////////////////
@@ -379,12 +379,12 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 					elseif ($key == "datetime")
 					$query = $query.$key." = '".date('Y-m-d H:i:s', strtotime($_POST[$key]))."', ";
 					else
-					$query = $query.$key." = '".mysql_real_escape_string($_POST[$key])."', ";
+					$query = $query.$key." = '".mysqli_real_escape_string($mysqli, $_POST[$key])."', ";
 				}
 				$query = substr($query, 0, strlen($query) - 2);
 				$query = $query . " WHERE id = " . $id;
 
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Entry " . $id . " has been changed successfully.";
 				}
 				else
@@ -396,7 +396,7 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 			if (isset($_POST['id'])) {
 				$id = intval($_POST['id']);
 				$query = "DELETE FROM aiseminar WHERE id = " . $id;
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Entry " . $id . " has been deleted successfully.";
 				}
 				else
@@ -407,11 +407,11 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 		elseif ($task == "newBibChar") {		
 			$bibCode = $_POST['bibcode'];
 			$query = "INSERT INTO bibtex_chars (`id`, `char`, `bibcode`) VALUES (null, '".$_POST['char']."', '".$bibCode."')";
-			if (mysql_query($query)) {
-				$newid = mysql_insert_id();
+			if (mysqli_query($mysqli, $query)) {
+				$newid = mysqli_insert_id($mysqli);
 				$message = "New entry " . $newid . " has been added successfully.";
 			} else {
-				$message = $errordbupload . '<br/>' . mysql_error();
+				$message = $errordbupload . '<br/>' . mysqli_error($mysqli);
 			}
 		}
 	//////////////////////////// EDIT BibChar ////////////////////////////////////////////////
@@ -419,7 +419,7 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 			if (isset($_POST['id'])) {
 				$id = intval($_POST['id']);
 				$query = "UPDATE bibtex_chars SET `char` = '".$_POST['char']."', `bibcode` = '".$_POST['bibcode']."' WHERE id = ".$id;
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Entry " . $id . " has been changed successfully.";
 				}
 				else
@@ -431,7 +431,7 @@ if (isset($_POST['formid']) && ($_POST['formid'] == $_SESSION['formid'])) {
 			if (isset($_POST['id'])) {
 				$id = intval($_POST['id']);
 				$query = "DELETE FROM bibtex_chars WHERE id = ".$id;
-				if (mysql_query($query)) {
+				if (mysqli_query($mysqli, $query)) {
 					$message = "Entry " . $id . " has been deleted successfully.";
 				}
 				else

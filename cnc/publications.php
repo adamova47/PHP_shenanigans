@@ -13,30 +13,28 @@
 	//TODO: sort by projects, users, year
 	$mysqli = db_connect();
 
-	if ($mysqli instanceof mysqli) {
-		$query = 'SELECT * FROM '.$publiTable.' ORDER BY year DESC';
-		$res = mysqli_query($mysqli, $query);
+	$query = 'SELECT * FROM '.$publiTable.' ORDER BY year DESC';
+	$res = mysqli_query($mysqli, $query);
 
-		if ($res) {
-			$row = array();
-			$c = 0;
-			while ($row = mysqli_fetch_array($res)) { 
-				if ($row['vis'] == 1) {
-					echo "<li>";
-					echo publToString($row);
-					echo "</li>"."\n";
-					$c++;
-				}
+	if ($res) {
+		$row = array();
+		$c = 0;
+		while ($row = mysqli_fetch_array($res)) { 
+			if ($row['vis'] == 1) {
+				echo "<li>";
+				echo publToString($row);
+				echo "</li>"."\n";
+				$c++;
 			}
-			if ($c > 12)
-				echo '<p class="top"><a href="#header">to the top</a></p>';
+		}
+		if ($c > 12)
+			echo '<p class="top"><a href="#header">to the top</a></p>';
 
-			mysqli_free_result($res);
-		} else
-			//echo "Q. failed: ".$query."<br/>";
+		mysqli_free_result($res);
+	} else
+		//echo "Q. failed: ".$query."<br/>";
 
-		mysqli_close($mysqli);
-	}
+	mysqli_close($mysqli);
 ?>
 
 </ul>

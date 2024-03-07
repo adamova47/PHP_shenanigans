@@ -6,10 +6,10 @@
     } elseif (isset($_GET['id'])) {
 	  $pubId = intval($_GET['id']);
     }
-	$result = mysql_query('SELECT * FROM bibtex_chars WHERE id = ' . $pubId);
+	$result = mysqli_query($mysqli, 'SELECT * FROM bibtex_chars WHERE id = ' . $pubId);
 	if ($result) {
-		$data = mysql_fetch_array($result);
-		mysql_free_result($result);
+		$data = mysqli_fetch_array($result);
+		mysqli_free_result($result);
     } 
 ?>
 <div id="bibchars">
@@ -39,10 +39,10 @@
 		</tr>
 		<?php
 		$query = 'SELECT * FROM bibtex_chars';
-		$res = mysql_query($query);
+		$res = mysqli_query($mysqli, $query);
 		$c = 1;
 		if ($res) {
-			while ($row = mysql_fetch_assoc($res)) {
+			while ($row = mysqli_fetch_assoc($res)) {
 				if ($c >= $bibtablesize) {
 					?>
 			</table>

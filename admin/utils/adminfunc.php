@@ -17,9 +17,10 @@ function htmlButtonsH2($where) {
 function usersAsOptions($selusers) {
 	//selusers > array
 	$out = "";
-	$r_users = mysql_query("SELECT * FROM users");
+	$mysqli = db_connect();
+	$r_users = mysqli_query($mysqli, "SELECT * FROM users");
 	if ($r_users) {
-		while ($data = mysql_fetch_assoc($r_users)) { 
+		while ($data = mysqli_fetch_assoc($r_users)) { 
 			$out = $out . '<option value="'.$data['id'].'"';
 			if (!empty($selusers) && in_array($data['id'],$selusers))
 				$out = $out . ' selected = "selected"';
@@ -32,15 +33,16 @@ function usersAsOptions($selusers) {
 function projectsAsOptions($selprojects) {
 	//selprojects > array
 	$out = "";
-	$r_projects = mysql_query("SELECT * FROM projects");
+	$mysqli = db_connect();
+	$r_projects = mysqli_query($mysqli, "SELECT * FROM projects");
 	if ($r_projects) {
-		while ($data = mysql_fetch_assoc($r_projects)) { 
+		while ($data = mysqli_fetch_assoc($r_projects)) { 
 			$out = $out . '<option value="'.$data['id'].'"';
 			if ($selprojects != null && in_array($data['id'],$selprojects))
 				$out = $out . ' selected = "selected"';
 			$out = $out . '>'.$data['tag'].'</option>'."\n";
 		}
-		mysql_free_result($r_projects);
+		mysqli_free_result($r_projects);
 	}
 	return $out;
 }
@@ -50,14 +52,15 @@ function projectsAsOptions($selprojects) {
 function userIdByName($name) {
 	//selusers > array
 	$userid = "";
+	$mysqli = db_connect();
 	$q = "SELECT * FROM users WHERE username = '".$name."'";
 	//echo $q;
-	$r_user = mysql_query($q);
+	$r_user = mysqli_query($mysqli, $q);
 	if ($r_user) {
-		while ($row = mysql_fetch_assoc($r_user)) { 
+		while ($row = mysqli_fetch_assoc($r_user)) { 
 			$userid = $row['id'];
 		}
-		mysql_free_result($r_user);
+		mysqli_free_result($r_user);
 	} else {
 		$userid = '-1';
 	}

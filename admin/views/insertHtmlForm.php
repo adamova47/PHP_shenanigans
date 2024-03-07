@@ -3,9 +3,9 @@
 <select id="linkPaper" name="linkPaper" class="link">
 	<?php
 	$q2 = "SELECT * FROM " . $publiTable . " t LEFT JOIN " . $userxpub . " rel ON rel.publication = t.id WHERE rel.user = " . $user['id'];
-	$r2 = mysql_query($q2);
+	$r2 = mysqli_query($mysqli, $q2);
 	if ($r2) {
-	while ($row2 = mysql_fetch_assoc($r2)) {
+	while ($row2 = mysqli_fetch_assoc($r2)) {
 	?>
 	<option value="<?= $row2['id'] ?>"><?= $row2['name'] . " (id " . $row2['id'] . ")" ?></option>
 	<?php
@@ -17,9 +17,9 @@
 <select id="linkProject" name="linkProject" class="link">
 	<?php
 	$q3 = "SELECT * FROM " . $projTable . " t LEFT JOIN " . $userxproj . " rel ON rel.project = t.id WHERE rel.user = " . $user['id'];
-	$r3 = mysql_query($q3);
+	$r3 = mysqli_query($mysqli, $q3);
 	if ($r3) {
-	while ($row3 = mysql_fetch_assoc($r3)) {
+	while ($row3 = mysqli_fetch_assoc($r3)) {
 	?>
 	<option value="<?= $row3['id'] ?>"><?= $row3['tag'] ?></option>
 	<?php
@@ -35,9 +35,9 @@
 		<option value="none">none</option>
 		<?php
 		$q3 = "SELECT * FROM " . $projTable;
-		$r3 = mysql_query($q3);
+		$r3 = mysqli_query($mysqli, $q3);
 		if ($r3) {
-		while ($row3 = mysql_fetch_assoc($r3)) {
+		while ($row3 = mysqli_fetch_assoc($r3)) {
 		?>
 		<option value="<?= $row3['id'] ?>"><?= $row3['tag'] ?></option>
 		<?php
@@ -51,9 +51,9 @@
 		<option value="all">all</option>
 		<?php
 		$q3 = "SELECT * FROM " . $userTable;
-		$r3 = mysql_query($q3);
+		$r3 = mysqli_query($mysqli, $q3);
 		if ($r3) {
-		while ($row3 = mysql_fetch_assoc($r3)) {
+		while ($row3 = mysqli_fetch_assoc($r3)) {
 		?>
 		<option value="<?= $row3['id'] ?>"<?= ($user['id'] == $row3['id']) ? ' selected="selected"' : '' ?>><?= usersFullName($row3['id']) ?></option>
 		<?php

@@ -43,7 +43,6 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse-1">
 
 		<?php
-			/** @var mysqli|bool $mysqli */
 			$mysqli = db_connect();
 
 			$r_navidata = mysqli_query($mysqli, "SELECT name,getname FROM ".$mainTable." WHERE primarytext = '1' ORDER BY id ASC");

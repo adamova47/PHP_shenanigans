@@ -12,10 +12,10 @@ if ($pubId > 0) {
 	?>
 	<h3>Edit entry <?= $pubId ?></h3>
 	<?php
-	$r_entry = mysql_query('SELECT * FROM ' . $publiTable . ' WHERE id = ' . $pubId);
+	$r_entry = mysqli_query($mysqli, 'SELECT * FROM ' . $publiTable . ' WHERE id = ' . $pubId);
 	if ($r_entry) {
-		$data = mysql_fetch_array($r_entry);
-		mysql_free_result($r_entry);
+		$data = mysqli_fetch_array($r_entry);
+		mysqli_free_result($r_entry);
 	}
 } else {
 	?>

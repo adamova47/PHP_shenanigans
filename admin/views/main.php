@@ -1,4 +1,6 @@
-<?php include "header.php"; ?>
+<?php
+include "header.php";
+?>
 
 <div id="wrap">
 	
@@ -19,6 +21,7 @@
 		<h1>CNC admin menu: <?php echo $user['username']; ?></h1>
 	</div>
 	<?php
+	$mysqli = db_connect();
 	$username = $user['username'];
 
 	if (isset($message) && $message != "") {
@@ -69,12 +72,12 @@
 		?>
 		<div id="panel_left">
 			<ul class="navi_verti">
-				<?php				
-					$navidata = mysql_query("SELECT name,getname FROM " . $mainTable . " ORDER BY id ASC");
+				<?php		
+					$navidata = mysqli_query($mysqli, "SELECT name,getname FROM " . $mainTable . " ORDER BY id ASC");
 
 					if ($navidata) {
 
-						while ($row = mysql_fetch_assoc($navidata)) {
+						while ($row = mysqli_fetch_assoc($navidata)) {
 
 							$getname = $row['getname'];
 							if ($row['getname'] == "")
@@ -109,7 +112,7 @@
 							}
 						}
 
-						mysql_free_result($navidata);
+						mysqli_free_result($navidata);
 					}
 				?>
 			</ul>
@@ -147,11 +150,11 @@
 					include "aiseminar.php";
 				} 
 				else {
-					$query = "SELECT * FROM " . $mainTable . " WHERE getname = '" . mysql_real_escape_string($part) . "'";
-					$res = mysql_query($query);
+					$query = "SELECT * FROM " . $mainTable . " WHERE getname = '" . mysqli_real_escape_string($mysqli,$part) . "'";
+					$res = mysqli_query($mysqli, $query);
 					$id = 0;
 					if ($res) {
-						$row = mysql_fetch_assoc($res);
+						$row = mysqli_fetch_assoc($res);
 						?>	
 						<textarea id="novytext" name="novytext" rows="25" cols="80"><?php echo $row['text']?></textarea>
 						<?php include "insertHtmlForm.php"; ?>
@@ -160,7 +163,7 @@
 						<?php } ?>	
 						<input type="button" value="Change Entry" class="button" onclick="<?php echo "setTask('changeMain','" . $row['id'] . "','" . $part . "')" ?>"/>
 						<?php
-						mysql_free_result($res);
+						mysqli_free_result($res);
 					}
 					else
 						echo $errordatabase;
@@ -178,6 +181,7 @@
 	</form>
 		<?php
 		}
+		mysqli_close($mysqli);
 		?>
 	</div>
 

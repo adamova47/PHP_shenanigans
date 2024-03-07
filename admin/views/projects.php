@@ -1,7 +1,7 @@
 <?php
 	$data = array();
-	
 	$pid = -1;
+	
 	if (isset($_POST['task']) && $_POST['task'] == "invokeEdit") { 
 		$pid = intval($_POST['id']);
 	}
@@ -13,10 +13,10 @@
 ?>
 		<h3>Edit project <?=$pid?></h3>
 <?php          
-		$r_proj = mysql_query('SELECT * FROM '.$projTable.' WHERE id = '.$pid);
+		$r_proj = mysqli_query($mysqli, 'SELECT * FROM '.$projTable.' WHERE id = '.$pid);
 		if ($r_proj) {
-			$data = mysql_fetch_array($r_proj);
-			mysql_free_result($r_proj);
+			$data = mysqli_fetch_array($r_proj);
+			mysqli_free_result($r_proj);
 		} 
 	} else {
 ?>
@@ -26,14 +26,14 @@
 	
 	$selusers = array();
 	if (!(empty($data))) {
-		$r_projUsers = mysql_query("SELECT * FROM ".$userxproj." WHERE project = ".$data['id']);
+		$r_projUsers = mysqli_query($mysqli, "SELECT * FROM ".$userxproj." WHERE project = ".$data['id']);
 		if ($r_projUsers) {
 			$i = 0;
-			while ($row = mysql_fetch_assoc($r_projUsers)) { 
+			while ($row = mysqli_fetch_assoc($r_projUsers)) { 
 				$selusers[$i] = $row['user'];
 				$i++;
 			}
-			mysql_free_result($r_projUsers);
+			mysqli_free_result($r_projUsers);
 		}
 	}
 ?>	
@@ -102,14 +102,14 @@
 <?php		
 	$orderby = 'id';
 	if (isset($_GET['orderby']))
-		$orderby = mysql_escape_string($_GET['orderby']);
+		$orderby = mysqli_escape_string($mysqli, $_GET['orderby']);
 
 	$query = 'SELECT * FROM '.$projTable;
 	$query = $query.' ORDER BY '.$orderby;
 	$query = ($orderby == 'id' || $orderby == 'vis') ? $query.' DESC ' : $query.' ASC ';
-	$res = mysql_query($query);
+	$res = mysqli_query($mysqli, $query);
 	if ($res) {
-        while ($row = mysql_fetch_assoc($res)) {
+        while ($row = mysqli_fetch_assoc($res)) {
 ?>
 		<tr>
 <?php
@@ -120,9 +120,9 @@
 				if ($val == "vis")
 					echo ($row[$val] == 0) ? "no" : "yes"; 
 				elseif ($val == "users") {
-					$r_users = mysql_query("SELECT * FROM ".$userxproj." WHERE project = ".$row['id']);
+					$r_users = mysqli_query($mysqli, "SELECT * FROM ".$userxproj." WHERE project = ".$row['id']);
 					if ($r_users) {
-						while ($r2 = mysql_fetch_assoc($r_users)) {
+						while ($r2 = mysqli_fetch_assoc($r_users)) {
 							echo usersFullName($r2['user']).'<br />';
 						}
 					}

@@ -14,13 +14,15 @@ function usersFullName($userid) {
 	//selusers > array
 	$userid = intval($userid);
 	$out = "";
-	$r_user = mysql_query("SELECT * FROM users WHERE id = " . $userid);
+	$mysqli = db_connect();
+	$r_user = mysqli_query($mysqli, "SELECT * FROM users WHERE id = " . $userid);
 	if ($r_user) {
-		while ($row = mysql_fetch_assoc($r_user)) {
+		while ($row = mysqli_fetch_assoc($r_user)) {
 			$out = $row['firstname'] . ' ' . $row['surname'];
 		}
-		mysql_free_result($r_user);
+		mysqli_free_result($r_user);
 	}
+	mysqli_close($mysqli);
 	return $out;
 }
 
@@ -158,7 +160,8 @@ function publToString($data) {
 }
 
 function encodeBib($string) {
-	$string = mysql_escape_string($string);
+	$mysqli = db_connect();
+	$string = mysqli_escape_string($mysqli, $string);
 	$specChars = downloadSpecChars();
 	$out = "";
 	foreach (getCharArray($string) as $char) {
@@ -183,11 +186,12 @@ function decodeBib($string) {
 }
 
 function downloadSpecChars() {
+	$mysqli = db_connect();
 	$query = "SELECT * FROM bibtex_chars";
-	$result = mysql_query($query);
+	$result = mysqli_query($mysqli, $query);
 	$data = array();
 	if ($result) {
-		while ($row = mysql_fetch_assoc($result)) {
+		while ($row = mysqli_fetch_assoc($result)) {
 			$data[$row['char']] = $row['bibcode'];
 			$row['char'];
 			//echo $row['char'].":".$data[$row['char']]."<br/>";
@@ -246,104 +250,110 @@ function createBib($data) {
 }
 
 function createNavi($mainTable) {
+	$mysqli = db_connect();
 	$out = "";
 	$q_navidata = "SELECT name,getname FROM " . $mainTable . " WHERE primarytext = '1' ORDER BY id ASC";
-	$r_navidata = mysql_query($q_navidata);
+	$r_navidata = mysqli_query($mysqli, $q_navidata);
 	if ($r_navidata) {
 		$out.= '<ul>' . "\n";
-		while ($row = mysql_fetch_assoc($r_navidata)) {
+		while ($row = mysqli_fetch_assoc($r_navidata)) {
 			if ($row['getname'] == "home")
 				$out.= '<li><a href="?">' . $row['name'] . '</a></li>' . "\n";
 			else
 				$out.= '<li><a href="?action=' . $row['getname'] . '">' . $row['name'] . '</a></li>' . "\n";
 		}
 		$out.= '</ul>' . "\n";
-		mysql_free_result($r_navidata);
+		mysqli_free_result($r_navidata);
 	}	
 	return $out;
 }
 
 function createNaviJustLi($mainTable) {
+	$mysqli = db_connect();
 	$out = "";
 	$q_navidata = "SELECT name,getname FROM " . $mainTable . " WHERE primarytext = '1' ORDER BY id ASC";
-	$r_navidata = mysql_query($q_navidata);
+	$r_navidata = mysqli_query($mysqli, $q_navidata);
 	if ($r_navidata) {
-		while ($row = mysql_fetch_assoc($r_navidata)) {
+		while ($row = mysqli_fetch_assoc($r_navidata)) {
 			if ($row['getname'] == "home")
 				//$out.= '<li><a href="?">' . $row['name'] . '</a></li>' . "\n";
 				;
 			else
 				$out.= '<li><a href="?action=' . $row['getname'] . '">' . $row['name'] . '</a></li>' . "\n";
 		}
-		mysql_free_result($r_navidata);
+		mysqli_free_result($r_navidata);
 	}
 	return $out;
 }
 
 function createNaviPriority($mainTable) {
-        $out = "";
-        $q_navidata = "SELECT name,getname FROM " . $mainTable . " WHERE primarytext = '1' ORDER BY priority ASC";
-        $r_navidata = mysql_query($q_navidata);
-        if ($r_navidata) {
-                $out.= '<ul>' . "\n";
-                while ($row = mysql_fetch_assoc($r_navidata)) {
-                        if ($row['getname'] == "home")
-                                $out.= '<li><a href="?">' . $row['name'] . '</a></li>' . "\n";
-                        else
-                                $out.= '<li><a href="?action=' . $row['getname'] . '">' . $row['name'] . '</a></li>' . "\n";
-                }
-                $out.= '</ul>' . "\n";
-                mysql_free_result($r_navidata);
-        }
-        return $out;
+	$mysqli = db_connect();
+	$out = "";
+	$q_navidata = "SELECT name,getname FROM " . $mainTable . " WHERE primarytext = '1' ORDER BY priority ASC";
+	$r_navidata = mysqli_query($mysqli, $q_navidata);
+	if ($r_navidata) {
+			$out.= '<ul>' . "\n";
+			while ($row = mysqli_fetch_assoc($r_navidata)) {
+					if ($row['getname'] == "home")
+							$out.= '<li><a href="?">' . $row['name'] . '</a></li>' . "\n";
+					else
+							$out.= '<li><a href="?action=' . $row['getname'] . '">' . $row['name'] . '</a></li>' . "\n";
+			}
+			$out.= '</ul>' . "\n";
+			mysqli_free_result($r_navidata);
+	}
+	return $out;
 }
 
 function createContent($mainTable,$getname,$leftcol) {
+	$mysqli = db_connect();
 	$out = "";
-	$q = "SELECT * FROM ".$mainTable." WHERE getname = '".mysql_escape_string($getname)."'";
-	$r_mainbody = mysql_query($q);
+	$q = "SELECT * FROM ".$mainTable." WHERE getname = '".mysqli_escape_string($mysqli, $getname)."'";
+	$r_mainbody = mysqli_query($mysqli, $q);
 	if ($r_mainbody) {
-		if ($leftcol && mysql_result($r_mainbody, 0, "has-left")) {
-			$r_panel_left = mysql_query("SELECT text FROM " . $mainTable . " WHERE name = 'panel_left'");
+		if ($leftcol && mysqli_fetch_assoc($r_mainbody, 0, "has-left")) {
+			$r_panel_left = mysqli_query($mysqli, "SELECT text FROM " . $mainTable . " WHERE name = 'panel_left'");
 			if ($r_panel_left) {
-				$out = $out.'<div id="content-panel-left">'.mysql_result($r_panel_left, 0, "text").'</div>'."\n";
-				mysql_free_result($r_panel_left);
-				$out = $out.'<div id="content-panel-right">'.mysql_result($r_mainbody, 0, "text").'</div>'."\n";
+				$out = $out.'<div id="content-panel-left">'.mysqli_fetch_assoc($r_panel_left, 0, "text").'</div>'."\n";
+				mysqli_free_result($r_panel_left);
+				$out = $out.'<div id="content-panel-right">'.mysqli_fetch_assoc($r_mainbody, 0, "text").'</div>'."\n";
 				$out = $out.'<div class="clear"></div>'."\n";
 			}
 		} else
-			$out = $out . mysql_result($r_mainbody, 0, "text") . "\n";
-		mysql_free_result($r_mainbody); 
+			$out = $out . mysqli_fetch_assoc($r_mainbody, 0, "text") . "\n";
+		mysqli_free_result($r_mainbody); 
 	}
 	return $out;
 }
 
 function createContentNew($mainTable,$getname,$leftcol) {
+	$mysqli = db_connect();
 	$out = "";
-	$q = "SELECT * FROM ".$mainTable." WHERE getname = '".mysql_escape_string($getname)."'";
-	$r_mainbody = mysql_query($q);
+	$q = "SELECT * FROM ".$mainTable." WHERE getname = '".mysqli_escape_string($mysqli, $getname)."'";
+	$r_mainbody = mysqli_query($mysqli, $q);
 	if ($r_mainbody) {
-		if ($leftcol && mysql_result($r_mainbody, 0, "has-left")) {
-			$r_panel_left = mysql_query("SELECT text FROM " . $mainTable . " WHERE name = 'panel_left'");
+		if ($leftcol && mysqli_fetch_assoc($r_mainbody, 0, "has-left")) {
+			$r_panel_left = mysqli_query($mysqli, "SELECT text FROM " . $mainTable . " WHERE name = 'panel_left'");
 			if ($r_panel_left) {
-				$out = $out.'<div class="col-md-4 panleft">'.mysql_result($r_panel_left, 0, "text").'</div>'."\n";
-				mysql_free_result($r_panel_left);
-				$out = $out.'<div class="col-md-8">'.mysql_result($r_mainbody, 0, "text").'</div>'."\n";
+				$out = $out.'<div class="col-md-4 panleft">'.mysqli_fetch_assoc($r_panel_left, 0, "text").'</div>'."\n";
+				mysqli_free_result($r_panel_left);
+				$out = $out.'<div class="col-md-8">'.mysqli_fetch_assoc($r_mainbody, 0, "text").'</div>'."\n";
 			}
 		} else
-			$out = $out . '<div class="col-md-12">' . mysql_result($r_mainbody, 0, "text") . '</div>'. "\n";
-		mysql_free_result($r_mainbody);
+			$out = $out . '<div class="col-md-12">' . mysqli_fetch_assoc($r_mainbody, 0, "text") . '</div>'. "\n";
+		mysqli_free_result($r_mainbody);
 	}
 	return $out;
 }
 
 function createFooter($mainTable) {
+	$mysqli = db_connect();
 	$out = "";
 	$q = "SELECT * FROM " . $mainTable . " WHERE name = 'footer'";
-	$r_footer = mysql_query($q);
+	$r_footer = mysqli_query($mysqli, $q);
 	if ($r_footer) {
-		$out.= mysql_result($r_footer, 0, "text")."\n";
-		mysql_free_result($r_footer);
+		$out.= mysqli_fetch_assoc($r_footer, 0, "text")."\n";
+		mysqli_free_result($r_footer);
 	}
 	return $out;
 }

@@ -3,7 +3,7 @@
     include "../../common/db_func.php";
     include "../../common/func.php";
 	
-	if (db_connect() && isset($_GET['invisId'])) {
+	if (isset($_GET['invisId'])) {
 		
 		$visibleCount = $visiblePubl;
 		if (isset($_GET['visibleCount']))
@@ -32,14 +32,14 @@
 		}
 		$query = $query . "ORDER BY p.year DESC";
 
-		$result = mysql_query($query);
+		$result = mysqli_query($mysqli, $query);
 		if ($result) {
 			echo "\n" . '<div class="publ">' . "\n";
 			echo "\t" . "\t" . "<ul>" . "\n";
 			$c = 0;
 			$visible = true;
-			$count = mysql_num_rows($result);
-			while ($pub = mysql_fetch_array($result)) {
+			$count = mysqli_num_rows($result);
+			while ($pub = mysqli_fetch_array($result)) {
 				if ($pub['vis'] == 1) {
 					echo "\t" . "\t" . "\t" . "<li>" . publToString($pub) . "</li>" . "\n";
 					$c++;
@@ -60,7 +60,7 @@
 			if ($c <= $visibleCount) 
 				echo "</ul>" . "\n";
 			echo "</div>" . "\n";
-			mysql_free_result($result);
+			mysqli_free_result($result);
 		}
 	}
 ?>

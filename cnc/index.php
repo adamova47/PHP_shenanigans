@@ -7,7 +7,4 @@ include "../common/func.php";
 $message = "";
 $mysqli = db_connect();
 
-if ($mysqli instanceof mysqli) {
-    include "main.php";
-    mysqli_close($mysqli);
-}
+include "main.php";

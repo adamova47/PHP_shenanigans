@@ -25,10 +25,10 @@ elseif (isset($_POST['page']))
 
 $orderby = 'id';
 if (isset($_GET['orderby']))
-	$orderby = mysql_escape_string($_GET['orderby']);
+	$orderby = mysqli_escape_string($mysqli, $_GET['orderby']);
 $order = 'ASC';
 if (isset($_GET['order']))
-	if (mysql_escape_string($_GET['order']) == "desc")
+	if (mysqli_escape_string($mysqli, $_GET['order']) == "desc")
 		$order = 'DESC';
 
 // query for all publications with filters    
@@ -39,12 +39,12 @@ if (isset($_GET['user'])) {
 } else {
 	$query = 'SELECT * FROM ' . $publiTable;
 }
-$resCount = mysql_query($query);
-$entrycount = mysql_num_rows($resCount);
+$resCount = mysqli_query($mysqli, $query);
+$entrycount = mysqli_num_rows($resCount);
 $pagecount = (int) ($entrycount / $entrylimit) + 1;
 
 $query .= ' ORDER BY ' . $orderby . ' ' . $order . ' LIMIT ' . $entrylimit . ' OFFSET ' . (($page - 1) * $entrylimit);
-$res = mysql_query($query);
+$res = mysqli_query($mysqli, $query);
 ?>
 	</form>
 	<div id="publinavi">
@@ -106,9 +106,9 @@ if ($res) {
 				<option value="none">none</option>
 				<?php
 					$q3 = "SELECT * FROM ".$projTable;
-					$r3 = mysql_query($q3);
+					$r3 = mysqli_query($mysqli, $q3);
 					if ($r3) {
-						while ($row3 = mysql_fetch_assoc($r3)) {
+						while ($row3 = mysqli_fetch_assoc($r3)) {
 				?>
 				<option value="<?=$row3['id']?>"><?=$row3['tag']?></option>
 				<?php
@@ -120,9 +120,9 @@ if ($res) {
 				<option value="all">all</option>
 				<?php
 					$q3 = "SELECT * FROM ".$userTable;
-					$r3 = mysql_query($q3);
+					$r3 = mysqli_query($mysqli, $q3);
 					if ($r3) {
-						while ($row3 = mysql_fetch_assoc($r3)) {
+						while ($row3 = mysqli_fetch_assoc($r3)) {
 				?>
 				<option value="<?=$row3['id']?>"<?=($user['id'] == $row3['id'])?' selected="selected"':''?>><?=usersFullName($row3['id'])?></option>
 				<?php
@@ -139,19 +139,19 @@ if ($res) {
 	<?php
 	////////////// LIST PUBLICATIONS /////////////////////
 	$count = 1;
-	while ($row = mysql_fetch_assoc($res)) {
+	while ($row = mysqli_fetch_assoc($res)) {
 		$pubId = $row['id'];
 		?>	    
 		<div class="pbox <?= ($row['vis'] == 0) ? ' notvisible' : '' ?>">
 			<strong>id <?= $pubId ?></strong>, 
 			<?php
 			$selusers = array();
-			$r_selusers = mysql_query("SELECT * FROM " . $userTable . " AS u," . $userxpub . " AS rel WHERE u.id = rel.user AND rel.publication = " . $pubId);
+			$r_selusers = mysqli_query($mysqli, "SELECT * FROM " . $userTable . " AS u," . $userxpub . " AS rel WHERE u.id = rel.user AND rel.publication = " . $pubId);
 			if ($r_selusers) {
-				while ($row2 = mysql_fetch_assoc($r_selusers)) {
+				while ($row2 = mysqli_fetch_assoc($r_selusers)) {
 					array_push($selusers, '<strong>' . $row2['username'] . '</strong>');
 				}
-				mysql_free_result($r_selusers);
+				mysqli_free_result($r_selusers);
 			}
 			?>
 			users: <?= implode(", ", $selusers) ?><br /> 
@@ -183,14 +183,14 @@ if ($res) {
 			?>
 			<strong>tags:</strong>
 			<?php
-			$r_proj = mysql_query("SELECT * FROM projects AS p, projectxpublication AS rel WHERE p.id = rel.project AND rel.publication = " . $pubId);
+			$r_proj = mysqli_query($mysqli, "SELECT * FROM projects AS p, projectxpublication AS rel WHERE p.id = rel.project AND rel.publication = " . $pubId);
 			if ($r_proj) {
-				while ($rowproj = mysql_fetch_assoc($r_proj)) {
+				while ($rowproj = mysqli_fetch_assoc($r_proj)) {
 					?>
 					<a href="javascript:editProject(<?= $rowproj['id'] ?>)" title="<?= $rowproj['tag'] ?>"><?= $rowproj['tag'] ?></a>
 					<?php
 				}
-				if (mysql_num_rows($r_proj) == 0)
+				if (mysqli_num_rows($r_proj) == 0)
 					echo 'none';
 			}
 			?>
@@ -221,7 +221,7 @@ if ($res) {
 			$count++;
 		}
 	}
-	mysql_free_result($res);
+	mysqli_free_result($res);
 } else {
 	echo $errordatabase;
 	//echo mysql_error();
